@@ -1,165 +1,156 @@
-# 🤖 Tmux Multi-Agent Communication Demo
+# Enterprise AI Agent Toolkit
 
-A demo system for agent-to-agent communication in a tmux environment.
+An AI agent toolkit to help individual developers build enterprise-level systems.
 
 **📖 Read this in other languages:** [日本語](README.md)
 
-## 🎯 Demo Overview
+## 🎯 Features
 
-Experience a hierarchical command system: PRESIDENT → BOSS → Workers
-
-### 👥 Agent Configuration
-
-```
-📊 PRESIDENT Session (1 pane)
-└── PRESIDENT: Project Manager
-
-📊 multiagent Session (4 panes)  
-├── boss1: Team Leader
-├── worker1: Worker A
-├── worker2: Worker B
-└── worker3: Worker C
-```
+- 🎯 **Consistent development support from requirements to operations**
+- ☁️ **AWS-specific architecture auto-design**
+- 🎨 **UI/UX design system generation**
+- 📊 **SLO/SLI standard values presentation and selection**
+- 💰 **Automatic cost estimation**
+- 🤖 **Interactive wizard configuration**
+- 📋 **Industry-specific template provision**
 
 ## 🚀 Quick Start
 
-### 0. Clone Repository
+### Installation
+
+Run the following in your new product directory:
 
 ```bash
-git clone https://github.com/nishimoto265/Claude-Code-Communication.git
-cd Claude-Code-Communication
+# Method 1: Direct download (recommended)
+curl -sSL https://raw.githubusercontent.com/nishimoto265/enterprise-ai-agent-toolkit/main/install.sh | bash
+
+# Method 2: Install from repository
+git clone https://github.com/nishimoto265/enterprise-ai-agent-toolkit.git
+cd enterprise-ai-agent-toolkit
+./install.sh
 ```
 
-### 1. Setup tmux Environment
-
-⚠️ **Warning**: Existing `multiagent` and `president` sessions will be automatically removed.
+### Basic Usage
 
 ```bash
-./setup.sh
+# 1. Project initialization
+.ai-agents/wizards/project-init.sh
+
+# 2. Requirements definition (guided mode)
+.ai-agents/agents/requirements/agent.sh --wizard
+
+# 3. Requirements definition (auto mode)
+.ai-agents/agents/requirements/agent.sh --auto "Want to create an e-commerce site"
+
+# 4. Requirements validation and update
+.ai-agents/agents/requirements/agent.sh --validate
+.ai-agents/agents/requirements/agent.sh --update
+
+# 5. Requirements document export
+.ai-agents/agents/requirements/agent.sh --export
 ```
 
-### 2. Attach Sessions
+## 🤖 Agent List
 
-```bash
-# Check multiagent session
-tmux attach-session -t multiagent
+| Agent | Role | Main Features |
+|-------|------|---------------|
+| 📋 **Requirements Agent** | Requirements definition | Wizard, auto-generation, validation |
+| 🏗️ **Architect Agent** | System design | AWS configuration, architecture diagrams |
+| 🎨 **UI/UX Agent** | Design specification | Design system, wireframes |
+| 💻 **Developer Agent** | Implementation support | Code generation, best practices |
+| 🔧 **SRE Agent** | Operations design | Monitoring, deployment, operation automation |
 
-# Check president session (in another terminal)
-tmux attach-session -t president
-```
-
-### 3. Launch Claude Code
-
-**Step 1: President Authentication**
-```bash
-# First, authenticate in PRESIDENT session
-tmux send-keys -t president 'claude' C-m
-```
-Follow the authentication prompt to grant permission.
-
-**Step 2: Launch All Multiagent Sessions**
-```bash
-# After authentication, launch all multiagent sessions at once
-for i in {0..3}; do tmux send-keys -t multiagent:0.$i 'claude' C-m; done
-```
-
-### 4. Run Demo
-
-Type directly in PRESIDENT session:
-```
-You are the president. Follow the instructions.
-```
-
-## 📜 About Instructions
-
-Role-specific instruction files for each agent:
-- **PRESIDENT**: `instructions/president.md`
-- **boss1**: `instructions/boss.md` 
-- **worker1,2,3**: `instructions/worker.md`
-
-**Claude Code Reference**: Check system structure in `CLAUDE.md`
-
-**Key Points:**
-- **PRESIDENT**: "You are the president. Follow the instructions." → Send command to boss1
-- **boss1**: Receive PRESIDENT command → Send instructions to all workers → Report completion
-- **workers**: Execute Hello World → Create completion files → Last worker reports
-
-## 🎬 Expected Operation Flow
+## 📁 Generated File Structure
 
 ```
-1. PRESIDENT → boss1: "You are boss1. Start Hello World project"
-2. boss1 → workers: "You are worker[1-3]. Start Hello World task"  
-3. workers → Create ./tmp/ files → Last worker → boss1: "All tasks completed"
-4. boss1 → PRESIDENT: "All completed"
+your-project/
+├── .ai-agents/                    # Toolkit (gitignore recommended)
+├── requirements/                  # Requirements definition
+│   ├── index.md                  # Things to decide list
+│   ├── decision_log.md           # Decision record
+│   └── requirements.md           # Final requirements document
+├── architecture/                 # Design materials
+│   ├── design.md                # Design document
+│   └── diagrams/                # Architecture diagrams
+├── aws/                          # AWS configuration
+│   └── cloudformation.yaml      # CloudFormation template
+├── uiux/                         # UI/UX design
+│   ├── design-system.md         # Design system
+│   └── wireframes/              # Wireframes
+└── src/                          # Actual source code
 ```
 
-## 🔧 Manual Operations
+## 🏗️ Industry Templates
 
-### Using agent-send.sh
+| Industry | Features | Recommended Configuration |
+|----------|----------|---------------------------|
+| **E-commerce** | High availability, payment system | ECS + RDS + ElastiCache |
+| **SaaS** | Multi-tenant, API-centric | Lambda + DynamoDB + API Gateway |
+| **Media** | High traffic, CDN | EC2 + CloudFront + S3 |
+| **Enterprise** | Security-focused | VPC + EC2 + RDS |
+| **Startup** | Low cost, rapid deployment | Lambda + DynamoDB |
 
-```bash
-# Basic sending
-./agent-send.sh [agent_name] [message]
+## 📊 SLO/SLI Standard Values
 
-# Examples
-./agent-send.sh boss1 "Urgent task"
-./agent-send.sh worker1 "Task completed"
-./agent-send.sh president "Final report"
+| Availability | Monthly Downtime | Use Case |
+|--------------|------------------|----------|
+| 99.0% | 7.2 hours | Development environment |
+| 99.9% | 43 minutes | Production (standard) |
+| 99.95% | 21 minutes | Critical systems |
+| 99.99% | 4 minutes | Mission critical |
 
-# Check agent list
-./agent-send.sh --list
-```
+## 💰 Cost Estimation
 
-## 🧪 Verification & Debug
+The toolkit presents the following cost patterns based on selected configuration:
 
-### Log Checking
+- **Minimal configuration**: Basic functionality only
+- **Recommended configuration**: Suitable for production operation
+- **Redundant configuration**: High availability focused
 
-```bash
-# Check send logs
-cat logs/send_log.txt
+## 🔍 Troubleshooting
 
-# Check specific agent logs
-grep "boss1" logs/send_log.txt
+### Common Issues
 
-# Check completion files
-ls -la ./tmp/worker*_done.txt
-```
+1. **Installation fails**
+   ```bash
+   # Check permissions
+   chmod +x install.sh
+   ./install.sh
+   ```
 
-### Session Status Check
+2. **Requirements document not generated**
+   ```bash
+   # Check directory permissions
+   ls -la requirements/
+   chmod -R 755 requirements/
+   ```
 
-```bash
-# List sessions
-tmux list-sessions
-
-# List panes
-tmux list-panes -t multiagent
-tmux list-panes -t president
-```
-
-## 🔄 Environment Reset
-
-```bash
-# Delete sessions
-tmux kill-session -t multiagent
-tmux kill-session -t president
-
-# Delete completion files
-rm -f ./tmp/worker*_done.txt
-
-# Rebuild (with auto cleanup)
-./setup.sh
-```
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
+3. **Agents don't work**
+   ```bash
+   # Check execution permissions
+   chmod +x .ai-agents/agents/**/*.sh
+   ```
 
 ## 🤝 Contributing
 
-Contributions via pull requests and issues are welcome!
+Pull requests and issues are welcome!
+
+### Participate in Development
+
+1. Fork this repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push branch (`git push origin feature/amazing-feature`)
+5. Create pull request
+
+## 📄 License
+
+This project is released under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+This toolkit is built based on knowledge and best practices cultivated in enterprise development.
 
 ---
 
-🚀 **Experience Agent Communication!** 🤖✨ 
+🚀 **Supporting enterprise development for individual developers!** 🤖✨

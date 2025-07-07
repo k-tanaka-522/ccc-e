@@ -12,7 +12,17 @@
       "Bash(then)",
       "Bash(else)",
       "Bash(tmux show-options:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(mv:*)",
+      "Bash(chmod:*)",
+      "Bash(./install.sh)",
+      "Bash(/mnt/c/dev2/Claude-Code-Communication/install.sh)",
+      "Bash(rm:*)",
+      "Bash(../install.sh)",
+      "Bash(find:*)",
+      "Bash(.ai-agents/agents/requirements/agent.sh:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }

@@ -17,4 +17,5 @@ Thumbs.db
 *.swo
 *~
 .vscode/
-.idea/ 
+.idea/ .ai-agents/logs/
+.ai-agents/tmp/
