@@ -22,11 +22,11 @@ Run the following in your new product directory:
 
 ```bash
 # Method 1: Direct download (recommended)
-curl -sSL https://raw.githubusercontent.com/nishimoto265/enterprise-ai-agent-toolkit/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/nishimoto265/ccc-e/main/install.sh | bash
 
 # Method 2: Install from repository
-git clone https://github.com/nishimoto265/enterprise-ai-agent-toolkit.git
-cd enterprise-ai-agent-toolkit
+git clone https://github.com/k-tanaka-522/ccc-e.git
+cd ccc-e
 ./install.sh
 ```
 

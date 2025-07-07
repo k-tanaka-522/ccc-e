@@ -22,11 +22,11 @@
 
 ```bash
 # 方法1: 直接ダウンロード（推奨）
-curl -sSL https://raw.githubusercontent.com/nishimoto265/enterprise-ai-agent-toolkit/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/nishimoto265/ccc-e/main/install.sh | bash
 
 # 方法2: リポジトリからインストール
-git clone https://github.com/nishimoto265/enterprise-ai-agent-toolkit.git
-cd enterprise-ai-agent-toolkit
+git clone https://github.com/k-tanaka-522/ccc-e.git
+cd ccc-e
 ./install.sh
 ```
 
@@ -89,7 +89,7 @@ your-project/
 mkdir my-new-product && cd my-new-product
 
 # ツールキットインストール
-curl -sSL https://raw.githubusercontent.com/nishimoto265/enterprise-ai-agent-toolkit/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/nishimoto265/ccc-e/main/install.sh | bash
 
 # 要件定義開始
 .ai-agents/wizards/project-init.sh
@@ -99,7 +99,7 @@ curl -sSL https://raw.githubusercontent.com/nishimoto265/enterprise-ai-agent-too
 
 ```bash
 # 既存プロジェクトにツールキットを追加
-./path/to/enterprise-ai-agent-toolkit/install.sh
+./path/to/ccc-e/install.sh
 
 # 現状分析と改善提案
 .ai-agents/agents/requirements/agent.sh --auto "既存システムの改善"
@@ -299,7 +299,7 @@ chmod +x wizards/*.sh agents/**/*.sh
 
 ### 要望・バグ報告
 
-- [Issues](https://github.com/nishimoto265/enterprise-ai-agent-toolkit/issues)からお気軽にご報告ください
+- [Issues](https://github.com/k-tanaka-522/ccc-e/issues)からお気軽にご報告ください
 - 新機能の提案も歓迎します
 
 ## 📄 ライセンス

@@ -22,7 +22,9 @@
       "Bash(find:*)",
       "Bash(.ai-agents/agents/requirements/agent.sh:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }
