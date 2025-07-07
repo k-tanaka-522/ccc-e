@@ -77,7 +77,7 @@ your-project/
 ├── uiux/                         # UI/UX設計
 │   ├── design-system.md         # デザインシステム
 │   └── wireframes/              # ワイヤーフレーム
-└── src/                          # 実際のソースコード
+└── src/                          # アプリケーションのソースコード
 ```
 
 ## 🎯 利用シーン

@@ -77,7 +77,7 @@ your-project/
 ├── uiux/                         # UI/UX design
 │   ├── design-system.md         # Design system
 │   └── wireframes/              # Wireframes
-└── src/                          # Actual source code
+└── src/                          # Application source code
 ```
 
 ## 🏗️ Industry Templates
