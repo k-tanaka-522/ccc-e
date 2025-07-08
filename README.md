@@ -7,12 +7,13 @@
 ## 🎯 特徴
 
 - 🎯 **要件定義から運用まで一貫した開発支援**
-- ☁️ **AWS特化のアーキテクチャ自動設計**（開発予定）
-- 🎨 **UI/UXデザインシステム生成**（開発予定）
+- ☁️ **AWS特化のアーキテクチャ自動設計**
+- 🎨 **UI/UXデザインシステム生成**
 - 📊 **SLO/SLI標準値の提示と選択**
-- 💰 **コスト見積もり自動計算**（開発予定）
+- 💰 **コスト見積もり自動計算**
 - 🤖 **対話型ウィザードによる設定**
 - 📋 **業界別テンプレートの提供**
+- 💬 **tmux通信によるエージェント間連携**
 
 ## 🚀 クイックスタート
 
@@ -36,29 +37,27 @@ cd ccc-e
 # 1. プロジェクト初期化
 .ai-agents/wizards/project-init.sh
 
-# 2. 要件定義（ガイドモード）
+# 2. エージェント通信環境の起動
+./start-enterprise.sh
+
+# 3. 統合ワークフローの実行
+./agents/core/workflow.sh full "ECサイトを作りたい"
+
+# または個別エージェントの実行
 .ai-agents/agents/requirements/agent.sh --wizard
-
-# 3. 要件定義（おまかせモード）
-.ai-agents/agents/requirements/agent.sh --auto "ECサイトを作りたい"
-
-# 4. 要件の確認・更新
-.ai-agents/agents/requirements/agent.sh --validate
-.ai-agents/agents/requirements/agent.sh --update
-
-# 5. 要件定義書のエクスポート
-.ai-agents/agents/requirements/agent.sh --export
+.ai-agents/agents/architect/agent.sh --analyze
+.ai-agents/agents/developer/agent.sh --generate
 ```
 
 ## 🤖 エージェント一覧
 
 | エージェント | 役割 | 実装状況 | 主要機能 |
 |-------------|------|----------|----------|
-| 📋 **Requirements Agent** | 要件定義 | ✅ 実装済み | ウィザード、自動生成、検証 |
-| 🏗️ **Architect Agent** | システム設計 | 🚧 開発予定 | AWS構成、アーキテクチャ図 |
-| 🎨 **UI/UX Agent** | デザイン設計 | 🚧 開発予定 | デザインシステム、ワイヤーフレーム |
-| 💻 **Developer Agent** | 実装支援 | 🚧 開発予定 | コード生成、ベストプラクティス |
-| 🔧 **SRE Agent** | 運用設計 | 🚧 開発予定 | 監視、デプロイ、運用自動化 |
+| 📋 **Requirements Agent** | 要件定義 | ✅ 実装済み | ウィザード、自動生成、検証、通信 |
+| 🏗️ **Architect Agent** | システム設計 | ✅ 実装済み | AWS構成、CloudFormation、コスト見積もり |
+| 🎨 **UI/UX Agent** | デザイン設計 | ✅ 実装済み | デザインシステム、ワイヤーフレーム、コンポーネント |
+| 💻 **Developer Agent** | 実装支援 | ✅ 実装済み | コード生成、Docker、CI/CD、テスト |
+| 🔧 **SRE Agent** | 運用設計 | ✅ 実装済み | 監視、アラート、バックアップ、ランブック |
 
 ## 📁 生成されるファイル構造
 
@@ -114,6 +113,59 @@ curl -sSL https://raw.githubusercontent.com/k-tanaka-522/ccc-e/main/install.sh |
 # 要件に基づく改善提案の確認
 cat requirements/requirements.md
 ```
+
+## 💬 エージェント通信システム
+
+### tmux通信環境の起動
+
+```bash
+# Enterprise Agentセッション起動
+./start-enterprise.sh
+
+# エージェント状態確認
+./agents/core/agent-send.sh --list
+```
+
+### ワークフロー実行
+
+```bash
+# フル開発ワークフロー
+./agents/core/workflow.sh full "ECサイトを作りたい"
+
+# 要件定義のみ
+./agents/core/workflow.sh requirements "社内管理システム"
+
+# 設計フェーズのみ
+./agents/core/workflow.sh design "モバイルアプリ"
+
+# 開発フェーズのみ
+./agents/core/workflow.sh development "API実装"
+```
+
+### 個別エージェントとの通信
+
+```bash
+# 要件定義エージェントにメッセージ送信
+./agents/core/agent-send.sh requirements "ECサイトの要件定義を開始"
+
+# アーキテクチャエージェントにメッセージ送信
+./agents/core/agent-send.sh architect "要件に基づいて設計を実行"
+
+# 開発エージェントにメッセージ送信
+./agents/core/agent-send.sh developer "実装を開始"
+```
+
+### エージェント間連携フロー
+
+```
+Requirements Agent → Architect Agent → UI/UX Agent → Developer Agent → SRE Agent
+```
+
+1. **Requirements Agent**が要件定義を作成
+2. **Architect Agent**が設計とCloudFormationを生成
+3. **UI/UX Agent**がデザインシステムを作成
+4. **Developer Agent**がコードを生成
+5. **SRE Agent**が監視・運用設定を作成
 
 ## 🔧 詳細な使用方法
 
@@ -270,25 +322,22 @@ chmod +x wizards/*.sh agents/**/*.sh
 - セキュリティベストプラクティス（準備中）
 - 運用ガイド（準備中）
 
-## 🎯 今後の予定
+## 🎯 将来の拡張計画
 
-### フェーズ2（予定）
-- [ ] Architect Agent の実装
-- [ ] UI/UX Agent の実装
-- [ ] CloudFormation テンプレート生成
-- [ ] コスト見積もり機能
-
-### フェーズ3（予定）
-- [ ] Developer Agent の実装
-- [ ] SRE Agent の実装
+### 統合機能
 - [ ] GitHub Actions 統合
 - [ ] Web UI ダッシュボード
+- [ ] エージェント間通信ログ可視化
 
-### 将来機能
+### 外部連携
 - [ ] Figma API連携
 - [ ] VS Code拡張機能
-- [ ] 複数プロジェクト管理
 - [ ] Claude API直接統合
+
+### 管理機能
+- [ ] 複数プロジェクト管理
+- [ ] エージェント設定カスタマイズ
+- [ ] 通信履歴・分析機能
 
 ## 🤝 コントリビューション
 

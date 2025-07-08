@@ -40,6 +40,28 @@ get_agent_target() {
                 echo ""
             fi
             ;;
+        # 新しいエージェント（enterpriseセッション）
+        "requirements"|"architect"|"developer"|"uiux"|"sre")
+            if tmux has-session -t enterprise 2>/dev/null; then
+                local indices=($(get_tmux_indices enterprise))
+                local window_index=${indices[0]}
+                local pane_index=${indices[1]}
+
+                # window名で取得
+                local window_name="agents"
+
+                # pane番号を計算
+                case "$1" in
+                    "requirements") echo "enterprise:$window_name.$((pane_index))" ;;
+                    "architect") echo "enterprise:$window_name.$((pane_index + 1))" ;;
+                    "developer") echo "enterprise:$window_name.$((pane_index + 2))" ;;
+                    "uiux") echo "enterprise:$window_name.$((pane_index + 3))" ;;
+                    "sre") echo "enterprise:$window_name.$((pane_index + 4))" ;;
+                esac
+            else
+                echo ""
+            fi
+            ;;
         *) echo "" ;;
     esac
 }
@@ -53,16 +75,23 @@ show_usage() {
   $0 --list
 
 利用可能エージェント:
-  president - プロジェクト統括責任者
-  boss1     - チームリーダー  
-  worker1   - 実行担当者A
-  worker2   - 実行担当者B
-  worker3   - 実行担当者C
+  president     - プロジェクト統括責任者
+  boss1         - チームリーダー  
+  worker1       - 実行担当者A
+  worker2       - 実行担当者B
+  worker3       - 実行担当者C
+  requirements  - 要件定義エージェント
+  architect     - アーキテクチャ設計エージェント
+  developer     - 開発・実装エージェント
+  uiux          - UI/UXデザインエージェント
+  sre           - SRE運用エージェント
 
 使用例:
   $0 president "指示書に従って"
   $0 boss1 "Hello World プロジェクト開始指示"
-  $0 worker1 "作業完了しました"
+  $0 requirements "ECサイトの要件定義を開始"
+  $0 architect "要件に基づいてAWS設計を実行"
+  $0 developer "APIとフロントエンドを実装"
 EOF
 }
 
@@ -94,6 +123,27 @@ show_agents() {
         echo "  worker1   → [未起動]        (実行担当者A)"
         echo "  worker2   → [未起動]        (実行担当者B)"
         echo "  worker3   → [未起動]        (実行担当者C)"
+    fi
+
+    # enterpriseセッション確認
+    if tmux has-session -t enterprise 2>/dev/null; then
+        local requirements_target=$(get_agent_target "requirements")
+        local architect_target=$(get_agent_target "architect")
+        local developer_target=$(get_agent_target "developer")
+        local uiux_target=$(get_agent_target "uiux")
+        local sre_target=$(get_agent_target "sre")
+
+        echo "  requirements → ${requirements_target:-[エラー]}  (要件定義エージェント)"
+        echo "  architect    → ${architect_target:-[エラー]}  (アーキテクチャ設計エージェント)"
+        echo "  developer    → ${developer_target:-[エラー]}  (開発・実装エージェント)"
+        echo "  uiux         → ${uiux_target:-[エラー]}  (UI/UXデザインエージェント)"
+        echo "  sre          → ${sre_target:-[エラー]}  (SRE運用エージェント)"
+    else
+        echo "  requirements → [未起動]        (要件定義エージェント)"
+        echo "  architect    → [未起動]        (アーキテクチャ設計エージェント)"
+        echo "  developer    → [未起動]        (開発・実装エージェント)"
+        echo "  uiux         → [未起動]        (UI/UXデザインエージェント)"
+        echo "  sre          → [未起動]        (SRE運用エージェント)"
     fi
 }
 
