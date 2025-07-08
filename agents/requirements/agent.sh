@@ -36,6 +36,7 @@ show_usage() {
   --update    既存要件の更新
   --validate  要件定義の検証
   --export    要件定義書のエクスポート
+  --send      他のエージェントに要件定義を送信
   --help      このヘルプを表示
 
 例:
@@ -696,6 +697,24 @@ EOF
     echo "- 未決定項目: $(grep -c "❌" "$OUTPUT_DIR/requirements.md" 2>/dev/null || echo 0)"
 }
 
+# 他のエージェントに要件定義を送信
+send_to_agents() {
+    if [ ! -f "$OUTPUT_DIR/requirements.md" ]; then
+        log_error "要件定義書が見つかりません"
+        return 1
+    fi
+    
+    log_info "要件定義を他のエージェントに送信しています..."
+    
+    # Architect Agentに送信
+    if [ -f "../core/agent-send.sh" ]; then
+        ../core/agent-send.sh architect "要件定義が完了しました。アーキテクチャ設計を開始してください。"
+        log_success "Architect Agentに要件定義を送信しました"
+    else
+        log_error "agent-send.shが見つかりません"
+    fi
+}
+
 # メイン処理
 main() {
     echo "📋 $AGENT_NAME v$AGENT_VERSION"
@@ -720,6 +739,9 @@ main() {
             ;;
         --export)
             export_requirements
+            ;;
+        --send)
+            send_to_agents
             ;;
         --help|"")
             show_usage
